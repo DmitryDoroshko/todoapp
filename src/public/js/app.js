@@ -1,15 +1,13 @@
-function module(){
-    class FormComponent {
-
+function module() {
+    class SearchListComponent {
         constructor(element) {
             this.anchor = element;
+            if (this.anchor) {
+                this.anchor.appendChild(document.createElement('input'));
+            }
         }
-
-        onInit() {
-        }
-        onPropsChanges() {
-        }
-
+        onInit() {}
+        onPropsChanges() {   }
         set props(properties) {
             this.properties = properties;
             this.onPropsChanges(this.properties);
@@ -18,56 +16,105 @@ function module(){
         get props() {
             return this.properties;
         }
-        doStuff(object) {
-            if (this.anchor) {
-                this.anchor.appendChild(document.createElement('form'));
-                for (let prop in object) {
-                    let input = document.createElement('input');
-                    if (object.hasOwnProperty(prop)) {
-                        input.name = prop.toString();
-                        if (object[prop].hasOwnProperty('value')) {
-                            input.value = object[prop].value;
-                        }
-                        if (object[prop].hasOwnProperty('onChanges')) {
-                            input.addEventListener('change', object[prop].onChanges);
-                        }
 
-                        this.anchor.querySelector('form').appendChild(input);
-                    }
+        doStuff(properties) {
+            if (this.anchor) {
+                // append list items from props.listData to anchor
+                let ul = document.createElement('ul');
+                for (let prop in properties) {
+                    if (properties.hasOwnProperty(prop)) {
+                        properties[prop].forEach(liText => {
+                            let li = document.createElement('li');
+                            li.innerText = liText;
+                            ul.appendChild(li);
+                        }); // foreach
+                    } // if
+                } // end of for loop
+                this.anchor.querySelector('input').appendChild(ul);
+                // filter elements in according to input changes
+                let input = this.anchor.querySelector('input');
+                input.addEventListener('change',
+                    this.filterElementsInAccordingToInputChanges.bind(this),
+                    false);
+            }
+        } // doStuff
+        filterElementsInAccordingToInputChanges(event) {
+            if (this.anchor) {
+                // magic
+                if (event.target.querySelectorAll('li').length > 0) {
+                    event.target.querySelectorAll('ul').forEach(ul => event.target.removeChild(ul));
                 }
+                // append list items from props.listData to anchor
+                let ul = document.createElement('ul');
+                for (let prop in this.properties) {
+                    if (this.properties.hasOwnProperty(prop)) {
+                        this.properties[prop].forEach(liText => {
+                            let li = document.createElement('li');
+                            li.innerText = liText;
+                            ul.appendChild(li);
+                        }); // foreach
+                    } // if
+                } // end of for loop
+                event.target.appendChild(ul);
+                // magic
+                let input = event.target;
+                let value = input.value;
+                if ( !value ) {
+                    this.deleteAllNodesFromUl(input);
+                    return;
+                }
+
+                let targetLiNode;
+                let found = false;
+                input.querySelector('ul').childNodes.forEach(liNode => {
+                    if (liNode.innerText.indexOf(value) !== -1) {
+                        targetLiNode = liNode;
+                        found = true;
+                    }
+                });
+                if (!found) {
+                    this.deleteAllNodesFromUl(input);
+                    return;
+                }
+
+                if (targetLiNode) {
+                    input.querySelector('ul')
+                        .insertBefore(targetLiNode, input.querySelector('ul').childNodes[0]);
+                }
+
+
+
+            }
+        }
+
+        deleteAllNodesFromUl(input) {
+            let  child = input.querySelector('ul').lastElementChild;
+            while (child) {
+                input.querySelector('ul').removeChild(child);
+                child = input.querySelector('ul').lastElementChild;
             }
         }
     } // end of class
+
     return {
-        FormComponent
+        SearchListComponent
     }
+
 }
 
-let firstInputRes = '';
-let secondInputRes = '';
-const el = document.createElement('div');
+const elem = document.createElement('div');
 const mod = module();
-const component = new mod.FormComponent(el);
+const component = new mod.SearchListComponent(elem);
 component.props = {
-    firstInput: {
-        value: 'Bob',
-        onChanges: (value) => firstInputRes = value
-    },
-    secondInput: {
-        value: 'Martin',
-        onChanges: (value) => secondInputRes = value
-    }
+    listData: [
+        'Sam Jakson',
+        'Coreay Taylor',
+    ]
 };
 
-el.querySelectorAll('input')[0].dispatchEvent(new Event('change'));
-el.querySelectorAll('input')[1].dispatchEvent(new Event('change'));
+const input = elem.querySelector('input');
+input.value = 'Coreay';
+input.dispatchEvent(new Event('change'));
 
-
-console.log('?Bob', firstInputRes);
-console.log('?Martin', secondInputRes);
-
-
-el.querySelectorAll('input')[0].value = 'Bib';
-el.querySelectorAll('input')[0].dispatchEvent(new Event('change'));
-
-console.log('Bib', firstInputRes);
+console.log(elem.querySelectorAll('li'));
+console.log(elem.querySelectorAll('li')[0].innerText);
