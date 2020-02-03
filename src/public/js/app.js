@@ -1,120 +1,117 @@
-function module() {
-    class SearchListComponent {
-        constructor(element) {
-            this.anchor = element;
-            if (this.anchor) {
-                this.anchor.appendChild(document.createElement('input'));
-            }
-        }
-        onInit() {}
-        onPropsChanges() {   }
-        set props(properties) {
-            this.properties = properties;
-            this.onPropsChanges(this.properties);
-            this.doStuff(this.properties);
-        }
-        get props() {
-            return this.properties;
-        }
+class Component {
+    get dom() {
+        this.anchor.innerHTML = this.render();
+        this.setupListeners();
+        return this.anchor;
+    }
+}
 
-        doStuff(properties) {
-            if (this.anchor) {
-                // append list items from props.listData to anchor
-                let ul = document.createElement('ul');
-                for (let prop in properties) {
-                    if (properties.hasOwnProperty(prop)) {
-                        properties[prop].forEach(liText => {
-                            let li = document.createElement('li');
-                            li.innerText = liText;
-                            ul.appendChild(li);
-                        }); // foreach
-                    } // if
-                } // end of for loop
-                this.anchor.querySelector('input').appendChild(ul);
-                // filter elements in according to input changes
-                let input = this.anchor.querySelector('input');
-                input.addEventListener('change',
-                    this.filterElementsInAccordingToInputChanges.bind(this),
-                    false);
-            }
-        } // doStuff
-        filterElementsInAccordingToInputChanges(event) {
-            if (this.anchor) {
-                // magic
-                if (event.target.querySelectorAll('li').length > 0) {
-                    event.target.querySelectorAll('ul').forEach(ul => event.target.removeChild(ul));
-                }
-                // append list items from props.listData to anchor
-                let ul = document.createElement('ul');
-                for (let prop in this.properties) {
-                    if (this.properties.hasOwnProperty(prop)) {
-                        this.properties[prop].forEach(liText => {
-                            let li = document.createElement('li');
-                            li.innerText = liText;
-                            ul.appendChild(li);
-                        }); // foreach
-                    } // if
-                } // end of for loop
-                event.target.appendChild(ul);
-                // magic
-                let input = event.target;
-                let value = input.value;
-                if ( !value ) {
-                    this.deleteAllNodesFromUl(input);
-                    return;
-                }
+class LoginComponent extends Component {
+    constructor(anchor) {
+        super();
+        this.anchor = document.createElement('div');
+    }
 
-                let targetLiNode;
-                let found = false;
-                input.querySelector('ul').childNodes.forEach(liNode => {
-                    if (liNode.innerText.indexOf(value) !== -1) {
-                        targetLiNode = liNode;
-                        found = true;
-                    }
-                });
-                if (!found) {
-                    this.deleteAllNodesFromUl(input);
-                    return;
-                }
+    onInit() {
+        console.log('LoginComponent init');
+    }
 
-                if (targetLiNode) {
-                    input.querySelector('ul')
-                        .insertBefore(targetLiNode, input.querySelector('ul').childNodes[0]);
-                }
+    render() {
+        return `
+            <form>
+                <h1>Login</h1> 
+                <input type="text" name="login"/>
+                <input type="password" name="password"/>
+                <button type="submit">Submit</button>
+            </form>
+        `;
+    }
 
+    setupListeners() {
+        this.anchor.querySelector('button[type="submit"]')
+            .addEventListener('click', (event) => {
+                event.preventDefault();
+                window.dispatchEvent(new CustomEvent('changeRoute',  { detail : {
+                        route: 'dashboard'
+                    }}));
+            });
+    }
+}
 
+class DashboardComponent extends Component {
+    constructor(anchor) {
+        super();
+        this.anchor = document.createElement('div');
+    }
 
-            }
-        }
+    onInit() {
+        console.log('Dashboard init');
+    }
 
-        deleteAllNodesFromUl(input) {
-            let  child = input.querySelector('ul').lastElementChild;
-            while (child) {
-                input.querySelector('ul').removeChild(child);
-                child = input.querySelector('ul').lastElementChild;
-            }
-        }
-    } // end of class
+    render() {
+        return `
+            <h1>Dashboard</h1>
+        `;
+    }
 
-    return {
-        SearchListComponent
+    setupListeners() {
+
     }
 
 }
 
-const elem = document.createElement('div');
-const mod = module();
-const component = new mod.SearchListComponent(elem);
-component.props = {
-    listData: [
-        'Sam Jakson',
-        'Coreay Taylor',
-    ]
-};
+const routerConfig = {
+    'login': {
+        data: {route:'login'},
+        url: 'login',
+        component: LoginComponent,
+    },
+    'dashboard' : {
+        data: {route: 'dashboard'},
+        url: 'dashboard',
+        component: DashboardComponent,
+    }
+}
 
-const input = elem.querySelector('input');
-input.value = 'Coreay';
-input.dispatchEvent(new Event('change'));
 
-console.log(elem.querySelectorAll('li'));
-console.log(elem.querySelectorAll('li')[0].innerText);
+class Router {
+    constructor(anchor) {
+        this.anchor = anchor;
+        window.addEventListener('popstate', event => {
+            this.changeRoute(event.state.route);
+        });
+    }
+
+    changeRoute(route) {
+        const conf = routerConfig[route];
+
+        if (!conf) return;
+        window.history.pushState(conf.data, "MyTitle", conf.url);
+
+        const component = new conf.component();
+        component.onInit();
+
+
+        const dom = component.dom;
+        if (this.currentDomComponent) {
+            this.anchor.innerHTML = '';
+            this.anchor.appendChild(dom);
+            this.currentDomComponent = dom;
+        } else {
+            this.anchor.appendChild(dom);
+            this.currentDomComponent = dom;
+        }
+    }
+
+}
+
+const router = new Router(document.body);
+
+window.addEventListener('changeRoute', event => {
+    router.changeRoute(event.detail.route);
+});
+
+window.dispatchEvent(new CustomEvent('changeRoute',  { detail : {
+        route: 'login'
+    }}));
+
