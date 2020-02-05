@@ -12,33 +12,130 @@
 </head>
 <body>
 
-<div class="authentication">
-    <form class="authentication__form" method="post" action="#">
-        <label for="authentication__form-login">
-            <h1 class="authentication__form-header"> Login:</h1>
-        </label>
-        <input type="text" placeholder="Enter your login"
-               name="authentication__form-login"
-               class="authentication__form-input"
-               id="authentication__form-login">
+<div class="app">
+    <div class="authentication visually-hidden">
+        <form class="authentication__form" method="post" action="#">
+            <label for="authentication__form-login">
+                <h1 class="authentication__form-header"> Login:</h1>
+            </label>
+            <input type="text" placeholder="Enter your login"
+                   name="authentication__form-login"
+                   class="authentication__form-input"
+                   id="authentication__form-login">
 
-        <input type="password" placeholder="Enter your password"
-               name="authentication__form-password"
-               class="authentication__form-input"
-               id="authentication__form-password">
+            <input type="password" placeholder="Enter your password"
+                   name="authentication__form-password"
+                   class="authentication__form-input"
+                   id="authentication__form-password">
 
-        <button type="submit"
-                id="authentication__form-submit"
-                class="authentication__form-submit">Submit</button>
+            <button type="submit"
+                    id="authentication__form-submit"
+                    class="authentication__form-submit">Submit
+            </button>
+        </form>
+    </div>
 
-    </form>
-</div>
+    <div class="registration visually-hidden">
+        <form action="#" class="registration__form" method="post">
+            <label for="registration__form-username">
+                <h1 class="registration__form-header"> Registration:</h1>
+            </label>
 
-<div class="todo">
-    <div class="container"></div>
-</div>
+            <input type="text" class="registration__form-input"
+                   placeholder="Enter your username"
+                   id="registration__form-username">
 
+            <input type="text" placeholder="Enter your login"
+                   name="registration__form-login"
+                   class="registration__form-input"
+                   id="registration__form-login">
 
+            <input type="password" placeholder="Enter your password"
+                   name="authentication__form-password"
+                   class="registration__form-input"
+                   id="registration__form-password">
+
+            <button type="submit"
+                    id="registration__form-submit"
+                    class="registration__form-submit">Submit
+            </button>
+        </form>
+    </div>
+
+    <div class="todo">
+        <div class="todo__container">
+            <div class="todo__header">
+                <h1 class="todo__header-logo">ToDo application</h1>
+                <button type="submit" class="todo__header-log-out-btn">Log out</button>
+            </div>
+            <div class="todo-app">
+                <div class="todo-app__app-add-area">
+                    <div class="todo-app__add-area__add-todo">
+                        <textarea cols="30" rows="10" placeholder="Add your todo task"
+                                  class="todo-app__add-area__add-todo-textarea"></textarea>
+                        <button type="submit"
+                                class="todo-app__add-area__add-todo-submit-btn">Add todo
+                        </button>
+                    </div>
+                </div>
+                <div class="todo-app__additional-info">
+                    <table class="todo-app__additional-info__table">
+                        <tbody>
+                        <tr class="todo-app__additional-info__table-row">
+                            <td class="todo-app__additional-info__table-text">All tasks</td>
+                            <td class="todo-app__additional-info__table-text-number
+                             todo-app__additional-info__table-all-tasks">14
+                            </td>
+                        </tr>
+                        <tr class="todo-app__additional-info__table-row">
+                            <td class="todo-app__additional-info__table-text">Completed tasks</td>
+                            <td class="todo-app__additional-info__table-text-number
+                            todo-app__additional-info__table-completed-tasks">3
+                            </td>
+                        </tr>
+                        <tr class="todo-app__additional-info__table-row">
+                            <td class="todo-app__additional-info__table-text">Not completed tasks</td>
+                            <td class="todo-app__additional-info__table-text-number
+                            todo-app__additional-info__table-not-completed-tasks">11
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="todo-app__todos-filters">
+                <div class="todo-app__todos-filters__filter-item active">
+                    <label>
+                        <span class="todo-app__todos-filters__filter-item__text">All todos</span>
+                        <input type="radio" name="filters" class="todo-app__todos-filters-item
+                        todo-app__todos-filters__all-todos">
+                    </label>
+                </div>
+                <div class="todo-app__todos-filters__filter-item">
+                    <label>
+                        <span class="todo-app__todos-filters__filter-item__text">Completed todos</span>
+                        <input type="radio" name="filters" class="todo-app__todos-filters-item
+                    todo-app__todos-filters__completed-todos">
+                    </label>
+                </div>
+                <div class="todo-app__todos-filters__filter-item">
+                    <span class="todo-app__todos-filters__filter-item__text">Not completed todos</span>
+                    <input type="radio" name="filters" class="todo-app__todos-filters-item
+                todo-app__todos-filters__not-completed-todos">
+                </div>
+            </div>
+
+            <div class="todo-app__todos-container">
+                <div class="todo-app__todos-item">1</div>
+                <div class="todo-app__todos-item">2</div>
+                <div class="todo-app__todos-item">3</div>
+                <div class="todo-app__todos-item">4</div>
+            </div>
+        </div>
+
+    </div> <!-- Todo_ -->
+</div> <!-- App -->
 </body>
 </html>
 

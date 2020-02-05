@@ -7,6 +7,7 @@ body {
     font-size: 16px;
     margin: 0;
     padding: 0;
+    background-color: rgba(164, 230, 184, 0.06);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -14,22 +15,21 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
 }
 
-/* Container */
-.container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
+/*Visually hidden*/
+.visually-hidden {
+    display: none;
 }
 
 /* Authentication */
-.authentication {
+.authentication, .registration {
     background-image: linear-gradient(to bottom right, #10ffe2, #bcff28);
     width: 100%;
     height: 100vh;
     position: relative;
 }
 
-.authentication__form {
+.authentication__form,
+.registration__form {
     display: block;
     margin: 0 auto;
     width: 100%;
@@ -40,12 +40,14 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-.authentication__form-header {
+.authentication__form-header,
+.registration__form-header {
     color: blue;
     margin-bottom: 10px;
 }
 
-.authentication__form-input {
+.authentication__form-input,
+.registration__form-input {
     width: 200px;
     margin: 5px 0 3px;
     text-align: center;
@@ -58,26 +60,204 @@ h1, h2, h3, h4, h5, h6 {
     transition: width ease-in-out 0.25s;
 }
 
-.authentication__form-input::placeholder {
+.authentication__form-input::placeholder,
+.registration__form-input::placeholder {
     color: white;
 }
 
 .authentication__form-input:focus,
-.authentication__form-input:hover {
+.authentication__form-input:hover,
+.registration__form-input:focus,
+.registration__form-input:hover{
     width: 280px;
     border: 2px solid #ff7c13;
 }
 
-.authentication__form-submit {
+.authentication__form-submit,
+.registration__form-submit {
     display: block;
     margin: 10px auto 0;
+    padding: 10px 0;
     background: none;
-    border: none;
     outline: none;
     cursor: pointer;
-    transition: hover ease-in-out 0.25s;
-    width: 150px;
+    transition: width ease-in-out 0.25s,
+    color ease-in-out 0.25s,
+    background-color ease-in-out 0.25s;
+    width: 100px;
+    border: 2px solid #ff2b1d;
+    border-radius: 20px;
+}
+
+.authentication__form-submit:focus,
+.authentication__form-submit:hover,
+.registration__form-submit:focus,
+.registration__form-submit:hover {
+    width: 200px;
+    border: 2px solid #1bd01f;
+    background-color: #1bff1f;
+    color: white;
+}
+
+/*To_do*/
+.todo {
+    width: 100%;
+    height: 100vh;
+}
+
+.todo__container {
+    width: 100%;
+    max-width: 700px;
+    height: 100vh;
+    margin: 60px auto 0;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.todo-app {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*Header */
+.todo__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.todo__header-logo {
+    color: #1bff1f;
+    flex-basis: 80%;
+}
+
+.todo__header-logo:hover {
+    color: #1bd01f;
+}
+
+.todo__header-log-out-btn {
+    background: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 10px 15px 0 0;
+    outline: none;
+}
+
+.todo__header-log-out-btn:hover {
+    background-color: red;
+    color: white;
+}
+
+/* App add area */
+.todo-app__app-add-area {
+    flex-basis: 70%;
+}
+
+.todo-app__add-area__add-todo {
+    width: 100%;
+    text-align: center;
+}
+
+.todo-app__add-area__add-todo-textarea {
+    width: 100%;
+    background-color: #cbe6e4;
+    border: 2px solid #2c90ff;
+    border-radius: 15px;
+    outline: none;
+    padding: 10px;
+}
+
+.todo-app__add-area__add-todo-textarea:focus,
+.todo-app__add-area__add-todo-textarea:hover {
+    background-color: #a0e4e6;
+    color: white;
+}
+
+.todo-app__add-area__add-todo-textarea:focus.todo-app__add-area__add-todo-textarea::placeholder,
+.todo-app__add-area__add-todo-textarea:hover.todo-app__add-area__add-todo-textarea::placeholder {
+    color: white;
+}
+
+.todo-app__add-area__add-todo-submit-btn {
+    outline: none;
+    background-color: #ffe185;
+    color: #346bff;
+    border: 2px solid #ff8f26;
+    cursor: pointer;
+    border-radius: 15px;
+    padding: 10px 15px;
+}
+
+.todo-app__add-area__add-todo-submit-btn:hover {
+    background-color: #ffb849;
 }
 
 
+/* Additional info */
+.todo-app__additional-info {
+    flex-basis: 30%;
+}
 
+.todo-app__additional-info__table {
+    font-family: 'Montserrat', Consolas, sans-serif;
+}
+
+.todo-app__additional-info__table-row {
+    text-align: center;
+}
+
+.todo-app__additional-info__table-text {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.todo-app__additional-info__table-text-number {
+    font-size: 40px;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.todo-app__additional-info__table-all-tasks {
+    color: blue;
+}
+
+.todo-app__additional-info__table-completed-tasks {
+    color: #1bd01f;
+}
+
+.todo-app__additional-info__table-not-completed-tasks {
+    color: red;
+}
+
+/* Todo_s filters */
+.todo-app__todos-filters {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    margin: 30px auto;
+}
+
+.todo-app__todos-filters__filter-item__text {
+    color: #1bd01f;
+}
+
+/* Todo_s container*/
+.todo-app__todos-container {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.todo-app__todos-item {
+    width: 500px;
+    height: auto;
+    border: 1px solid black;
+    margin: 15px auto;
+}
+
+.todo-app__todos-item:first-child {
+    margin-top: 0;
+}
