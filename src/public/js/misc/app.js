@@ -55,7 +55,9 @@ class DashboardComponent extends Component {
     }
 
     setupListeners() {
-
+        this.anchor.addEventListener('click', (event) => {
+           console.log('clicked!!!');
+        });
     }
 
 }

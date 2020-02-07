@@ -8,7 +8,7 @@
     <title>todo app</title>
     <link rel="stylesheet" href="./css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700&display=swap" rel="stylesheet">
-    <script src="js/Test/test.js" defer></script>
+    <script src="./js/main.js" defer></script>
 </head>
 <body>
 
@@ -126,12 +126,26 @@
                 </div>
             </div>
 
-            <div class="todo-app__todos-container">
-                <div class="todo-app__todos-item">1</div>
-                <div class="todo-app__todos-item">2</div>
-                <div class="todo-app__todos-item">3</div>
-                <div class="todo-app__todos-item">4</div>
-            </div>
+            <ul class="todo-app__todos-container">
+                <li class="todo-app__todos-item">
+                    <p class="todo-app__todos-item__plain-text">Blablabla</p>
+                    <textarea cols="30" rows="10" class="todo-app__todos-item__textarea">BlaBlaBla</textarea>
+                    <div class="todo-app__todos-item__buttons">
+                        <button type="submit" class="todo-app__todos-item__delete-btn
+                        todo-app__todos-item__button ">delete
+                        </button>
+                        <button type="submit" class="todo-app__todos-item__save-btn
+                        todo-app__todos-item__button">save
+                        </button>
+                    </div>
+                    <span class="todo-app__todos-item__date">2/7/2020</span>
+                </li>
+                <li class="todo-app__todos-item">
+
+                </li>
+                <li class="todo-app__todos-item">3</li>
+                <li class="todo-app__todos-item">4</li>
+            </ul>
         </div>
 
     </div> <!-- Todo_ -->
