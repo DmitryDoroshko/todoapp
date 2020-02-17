@@ -330,6 +330,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #52e64c;
 }
 
+.todo-app__todos-item__button:hover.todo-app__todos-item__done-btn {
+    background-color: #e4e661;
+}
+
 .todo-app__todos-item__date {
     position: absolute;
     z-index: 5;

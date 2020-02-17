@@ -10,7 +10,6 @@ export default function createReducers() {
                 ...state.todos.slice(0, payload.id),
                 ...state.todos.slice(payload.id + 1, state.todos.length),
                 ]
-
         }),
     }
 
